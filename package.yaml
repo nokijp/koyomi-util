@@ -1,0 +1,43 @@
+name: date-util
+version: 0.1.0.0
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  dependencies:
+  - japanese-calendar
+  - time
+  ghc-options:
+  - -Wall
+  - -Werror
+  - -O
+
+executables:
+  date-util-exe:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Werror
+    - -O
+    dependencies:
+    - date-util
+
+tests:
+  date-util-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -Werror
+    dependencies:
+    - hspec
+    - date-util
