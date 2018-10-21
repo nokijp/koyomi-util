@@ -1,4 +1,4 @@
-name: date-util
+name: koyomi-util
 version: 0.1.0.0
 
 dependencies:
@@ -16,7 +16,7 @@ library:
   - -O
 
 executables:
-  dateutil:
+  koyomi:
     main: Main.hs
     source-dirs: app
     ghc-options:
@@ -27,10 +27,10 @@ executables:
     - -Werror
     - -O
     dependencies:
-    - date-util
+    - koyomi-util
 
 tests:
-  date-util-test:
+  koyomi-util-test:
     main: Spec.hs
     source-dirs: test
     ghc-options:
@@ -41,4 +41,4 @@ tests:
     - -Werror
     dependencies:
     - hspec
-    - date-util
+    - koyomi-util

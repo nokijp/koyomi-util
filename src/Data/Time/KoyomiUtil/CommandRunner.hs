@@ -1,11 +1,11 @@
-module Data.Time.DateUtil.CommandRunner
+module Data.Time.KoyomiUtil.CommandRunner
   ( runCommand
   ) where
 
 import Data.Maybe
 import Data.Time.Calendar
 import Data.Time.Clock
-import Data.Time.DateUtil.Command
+import Data.Time.KoyomiUtil.Command
 import Data.Time.JapaneseCalendar
 import Data.Time.LocalTime
 import System.Exit

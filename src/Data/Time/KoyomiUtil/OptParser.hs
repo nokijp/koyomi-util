@@ -1,11 +1,11 @@
-module Data.Time.DateUtil.OptParser
+module Data.Time.KoyomiUtil.OptParser
   ( parseOpt
   , parseOptIO
   ) where
 
 import Data.Time.Calendar
 import Data.Time.Format
-import Data.Time.DateUtil.Command
+import Data.Time.KoyomiUtil.Command
 import Options.Applicative
 
 parseOpt :: [String] -> ParserResult Command

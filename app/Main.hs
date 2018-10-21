@@ -1,7 +1,7 @@
 module Main where
 
-import Data.Time.DateUtil.CommandRunner
-import Data.Time.DateUtil.OptParser
+import Data.Time.KoyomiUtil.CommandRunner
+import Data.Time.KoyomiUtil.OptParser
 
 main :: IO ()
 main = do

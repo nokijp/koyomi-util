@@ -1,12 +1,12 @@
-module Data.Time.DateUtil.OptParserSpec
+module Data.Time.KoyomiUtil.OptParserSpec
   ( main
   , spec
   ) where
 
 import Control.Monad
 import Data.Time.Calendar
-import Data.Time.DateUtil.Command
-import Data.Time.DateUtil.OptParser
+import Data.Time.KoyomiUtil.Command
+import Data.Time.KoyomiUtil.OptParser
 import Options.Applicative
 import Test.Hspec
 

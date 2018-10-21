@@ -1,4 +1,4 @@
-module Data.Time.DateUtil.Command
+module Data.Time.KoyomiUtil.Command
   ( Command(..)
   , HolidayCommandType(..)
   , RokuyoCommandType(..)
