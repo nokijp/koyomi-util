@@ -6,6 +6,8 @@ import Data.Maybe
 import Data.Time.Calendar
 import Data.Time.Clock
 import Data.Time.KoyomiUtil.Command
+import Data.Time.KoyomiUtil.Internal.Holiday
+import Data.Time.KoyomiUtil.Internal.Tempo
 import Data.Time.JapaneseCalendar
 import Data.Time.LocalTime
 import System.Exit
@@ -13,24 +15,18 @@ import System.IO
 
 runCommand :: Command -> IO ()
 runCommand (TempoCommand (TempoStdOut formatMaybe dayMaybe)) = getDay dayMaybe >>= tempoStdOut formatMaybe
-runCommand (HolidayCommand (HolidayStdOut dayMaybe)) = getDay dayMaybe >>= holidayStdOut
-runCommand (HolidayCommand (HolidayExitCode dayMaybe)) = getDay dayMaybe >>= holidayExitCode
+runCommand (HolidayCommand (HolidayStdOut dayMaybe includesWeekends)) = getDay dayMaybe >>= holidayStdOut includesWeekends
+runCommand (HolidayCommand (HolidayExitCode dayMaybe includesWeekends)) = getDay dayMaybe >>= holidayExitCode includesWeekends
 runCommand (RokuyoCommand (RokuyoStdOut dayMaybe)) = getDay dayMaybe >>= rokuyoStdOut
 
 tempoStdOut :: Maybe String -> Day -> IO ()
-tempoStdOut formatMaybe day =
-  let
-    format = fromMaybe "%y年%M月%d日" formatMaybe
-    stringEither = do
-      td <- maybe (Left "Kyureki calculation failed") Right $ tempoDate jst day
-      formatTempoDate format td
-  in either exitWithMessage putStrLn stringEither
+tempoStdOut formatMaybe day = either exitWithMessage putStrLn $ tempoString formatMaybe day
 
-holidayStdOut :: Day -> IO ()
-holidayStdOut = maybe (return ()) (putStrLn . toJapaneseName) . holidayType
+holidayStdOut :: Bool -> Day -> IO ()
+holidayStdOut includesWeekends day = maybe (return ()) putStrLn $ holidayName includesWeekends day
 
-holidayExitCode :: Day -> IO ()
-holidayExitCode = maybe exitFailure (const exitSuccess) . holidayType
+holidayExitCode :: Bool -> Day -> IO ()
+holidayExitCode includesWeekends day = if isJust (holidayName includesWeekends day) then exitSuccess else exitFailure
 
 rokuyoStdOut :: Day -> IO ()
 rokuyoStdOut = maybe exitFailure (putStrLn . toJapaneseName) . rokuyo jst

@@ -15,8 +15,8 @@ data Command = TempoCommand { _tempoCommandType :: TempoCommandType }
 data TempoCommandType = TempoStdOut { _tempoCommandFormat :: Maybe String, _tempoCommandDay :: Maybe Day }
   deriving (Show, Eq)
 
-data HolidayCommandType = HolidayStdOut { _holidayCommandDay :: Maybe Day }
-                        | HolidayExitCode { _holidayCommandDay :: Maybe Day }
+data HolidayCommandType = HolidayStdOut { _holidayCommandDay :: Maybe Day, _includesWeekends :: Bool }
+                        | HolidayExitCode { _holidayCommandDay :: Maybe Day, _includesWeekends :: Bool }
   deriving (Show, Eq)
 
 data RokuyoCommandType = RokuyoStdOut { _rokuyoCommandDay :: Maybe Day }

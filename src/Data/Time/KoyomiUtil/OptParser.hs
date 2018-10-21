@@ -35,7 +35,7 @@ parser = subparser (  command "kyureki" (info ((TempoCommand <$> tempoOptParser)
                    )
 
 tempoOptParser :: Parser TempoCommandType
-tempoOptParser = TempoStdOut <$> optional (option str (long "format" <> short 'f' <> help helpString))
+tempoOptParser = TempoStdOut <$> optional (strOption (long "format" <> short 'f' <> help helpString))
                              <*> dateParser
   where
     helpString = "Set a format string to print (default: \"%y年%M月%d日\")"
@@ -43,6 +43,7 @@ tempoOptParser = TempoStdOut <$> optional (option str (long "format" <> short 'f
 holidayOptParser :: Parser HolidayCommandType
 holidayOptParser = (\c -> if c then HolidayExitCode else HolidayStdOut) <$> switch (long "exit-code" <> help helpString)
                                                                         <*> dateParser
+                                                                        <*> switch (short 'w' <> help "Include weekend days as holidays")
   where
     helpString = "Exit with 0 if the specified day is a holiday, otherwise exit with 1"
 
