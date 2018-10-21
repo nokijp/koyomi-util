@@ -26,14 +26,8 @@ spec = do
       \(ctx, args) -> it ("should fail when " ++ ctx) $
         parseOpt args `shouldSatisfy` isFailure
 
-    it "should run 'help' when '--help' is passed" $
-      unwrapSuccess (parseOpt ["--help"]) `shouldBe` HelpCommand
-
     describe "holiday" $ do
-      forM_ [ ( ["holiday"]
-              , HolidayCommand HolidayHelp
-              )
-            , ( ["holiday", "--exit-code"]
+      forM_ [ ( ["holiday", "--exit-code"]
               , HolidayCommand $ HolidayExitCode Nothing
               )
             , ( ["holiday", "2000-01-02"]
@@ -50,9 +44,6 @@ spec = do
               )
             , ( ["holiday", "--exit-code", "2000-01-02"]
               , HolidayCommand $ HolidayExitCode $ Just $ fromGregorian 2000 1 2
-              )
-            , ( ["holiday", "--help"]
-              , HolidayCommand HolidayHelp
               )
             ] $
         \(args, expected) -> it ("should run 'holiday' with parameters " ++ show expected ++ " when given " ++ show args) $
@@ -79,9 +70,6 @@ spec = do
               )
             , ( ["rokuyo", "2000-01-02"]
               , RokuyoCommand $ RokuyoStdOut $ Just $ fromGregorian 2000 1 2
-              )
-            , ( ["rokuyo", "--help"]
-              , RokuyoCommand RokuyoHelp
               )
             ] $
         \(args, expected) -> it ("should run 'rokuyo' with parameters " ++ show expected ++ " when given " ++ show args) $

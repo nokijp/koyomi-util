@@ -15,32 +15,26 @@ parseOptIO :: IO Command
 parseOptIO = execParser parserInfo
 
 parserInfo :: ParserInfo Command
-parserInfo = info parser $ progDesc "a tool for dealing with the Japanese calendar" <> fullDesc
+parserInfo = info (parser <**> helper) $ progDesc "a tool for dealing with the Japanese calendar" <> fullDesc
 
 parser :: Parser Command
-parser =   subparser (  command "holiday" (info (HolidayCommand <$> holidayOptParser)
+parser =   subparser (  command "holiday" (info ((HolidayCommand <$> holidayOptParser) <**> helper)
                                                 (progDesc "show the name of holiday if today (or the specified day) is holiday" <> fullDesc)
                                           )
-                     <> command "rokuyo" (info (RokuyoCommand <$> rokuyoOptParser)
+                     <> command "rokuyo" (info ((RokuyoCommand <$> rokuyoOptParser) <**> helper)
                                                (progDesc "show the name of Rokuyo" <> fullDesc)
                                          )
                      )
-       <|> defaultOptParser
-
-defaultOptParser :: Parser Command
-defaultOptParser = HelpCommand <$ flag' () (long "help" <> help "show this help")
 
 holidayOptParser :: Parser HolidayCommandType
-holidayOptParser =   (HolidayHelp <$ switch (long "help" <> help "show this help"))
-                 <|> (HolidayStdOut <$> dateParser)
+holidayOptParser =   (HolidayStdOut <$> dateParser)
                  <|> (HolidayExitCode <$> (  flag' () (long "exit-code" <> help "exit with 0 if the specified day is a holiday, otherwise exit with 1")
                                           *> dateParser
                                           )
                      )
 
 rokuyoOptParser :: Parser RokuyoCommandType
-rokuyoOptParser =   (RokuyoHelp <$ flag' () (long "help" <> help "show this help"))
-                <|> (RokuyoStdOut <$> dateParser)
+rokuyoOptParser = RokuyoStdOut <$> dateParser
 
 dateParser :: Parser (Maybe Day)
 dateParser = optional (argument (eitherReader parseDate) (metavar "DATE"))
