@@ -34,6 +34,7 @@ $ stack install
 | `koyomi holiday` | 祝日であれば、その名前を表示する |
 | `koyomi holiday 2000/01/01` | 特定の日付の祝日を調べる |
 | `koyomi holiday --exit-code` | 祝日かどうかを終了コードで返す |
+| `koyomi holiday -w` | 土日の場合も出力する（祝日優先） |
 | `koyomi rokuyo` | 今日の六曜を表示する |
 | `koyomi rokuyo 2000/01/01` | 特定の日付の六曜を表示する |
 
