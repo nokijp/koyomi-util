@@ -1,13 +1,18 @@
 module Data.Time.KoyomiUtil.Command
   ( Command(..)
+  , TempoCommandType(..)
   , HolidayCommandType(..)
   , RokuyoCommandType(..)
   ) where
 
 import Data.Time.Calendar
 
-data Command = HolidayCommand { _holidayCommandType :: HolidayCommandType }
+data Command = TempoCommand { _tempoCommandType :: TempoCommandType }
+             | HolidayCommand { _holidayCommandType :: HolidayCommandType }
              | RokuyoCommand { _rokuyoCommandType :: RokuyoCommandType }
+  deriving (Show, Eq)
+
+data TempoCommandType = TempoStdOut { _tempoCommandFormat :: Maybe String, _tempoCommandDay :: Maybe Day }
   deriving (Show, Eq)
 
 data HolidayCommandType = HolidayStdOut { _holidayCommandDay :: Maybe Day }

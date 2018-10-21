@@ -23,17 +23,28 @@ parserInfo :: ParserInfo Command
 parserInfo = info (parser <**> helper) $ progDesc "A tool for dealing with the Japanese calendar" <> fullDesc
 
 parser :: Parser Command
-parser =   subparser (  command "holiday" (info ((HolidayCommand <$> holidayOptParser) <**> helper)
-                                                (progDesc "Show the name of holiday if today (or the specified day) is holiday" <> fullDesc)
-                                          )
-                     <> command "rokuyo" (info ((RokuyoCommand <$> rokuyoOptParser) <**> helper)
-                                               (progDesc "Show the name of Rokuyo" <> fullDesc)
-                                         )
-                     )
+parser = subparser (  command "kyureki" (info ((TempoCommand <$> tempoOptParser) <**> helper)
+                                              (progDesc "Show Japanese Kyureki" <> fullDesc)
+                                        )
+                   <> command "holiday" (info ((HolidayCommand <$> holidayOptParser) <**> helper)
+                                              (progDesc "Show name of holiday if today (or the specified day) is holiday" <> fullDesc)
+                                        )
+                   <> command "rokuyo" (info ((RokuyoCommand <$> rokuyoOptParser) <**> helper)
+                                             (progDesc "Show name of Rokuyo" <> fullDesc)
+                                       )
+                   )
+
+tempoOptParser :: Parser TempoCommandType
+tempoOptParser = TempoStdOut <$> optional (option str (long "format" <> short 'f' <> help helpString))
+                             <*> dateParser
+  where
+    helpString = "Set a format string to print (default: \"%y年%M月%d日\")"
 
 holidayOptParser :: Parser HolidayCommandType
-holidayOptParser = (\c -> if c then HolidayExitCode else HolidayStdOut) <$> switch (long "exit-code" <> help "Exit with 0 if the specified day is a holiday, otherwise exit with 1")
+holidayOptParser = (\c -> if c then HolidayExitCode else HolidayStdOut) <$> switch (long "exit-code" <> help helpString)
                                                                         <*> dateParser
+  where
+    helpString = "Exit with 0 if the specified day is a holiday, otherwise exit with 1"
 
 rokuyoOptParser :: Parser RokuyoCommandType
 rokuyoOptParser = RokuyoStdOut <$> dateParser
