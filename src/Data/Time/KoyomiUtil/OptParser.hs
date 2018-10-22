@@ -23,7 +23,10 @@ parserInfo :: ParserInfo Command
 parserInfo = info (parser <**> helper) $ progDesc "A tool for dealing with the Japanese calendar" <> fullDesc
 
 parser :: Parser Command
-parser = subparser (  command "kyureki" (info ((TempoCommand <$> tempoOptParser) <**> helper)
+parser = subparser (  command "day" (info ((DayCommand <$> dayOptParser) <**> helper)
+                                          (progDesc "Show Japanese calendar" <> fullDesc)
+                                    )
+                   <> command "kyureki" (info ((TempoCommand <$> tempoOptParser) <**> helper)
                                               (progDesc "Show Japanese Kyureki" <> fullDesc)
                                         )
                    <> command "holiday" (info ((HolidayCommand <$> holidayOptParser) <**> helper)
@@ -33,6 +36,10 @@ parser = subparser (  command "kyureki" (info ((TempoCommand <$> tempoOptParser)
                                              (progDesc "Show name of Rokuyo" <> fullDesc)
                                        )
                    )
+         <|> pure (DayCommand $ DayStdOut Nothing)
+
+dayOptParser :: Parser DayCommandType
+dayOptParser = DayStdOut <$> dateParser
 
 tempoOptParser :: Parser TempoCommandType
 tempoOptParser = TempoStdOut <$> optional (strOption (long "format" <> short 'f' <> help helpString))

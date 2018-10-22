@@ -16,30 +16,47 @@ main = hspec spec
 spec :: Spec
 spec = do
   describe "parseOpt" $ do
-    forM_ [ ( "no argments are given"
-            , []
-            )
-          , ( "passed an invalid sub-command"
+    forM_ [ ( "passed an invalid sub-command"
             , ["invalidsubcommand"]
             )
           ] $
       \(ctx, args) -> it ("should fail when " ++ ctx) $
         parseOpt args `shouldSatisfy` isFailure
 
+    it "should return 'day' command when no arguments are given" $
+      unwrapSuccess (parseOpt []) `shouldBe` DayCommand (DayStdOut Nothing)
+
+    describe "day" $ do
+      forM_ [ ( ["day"]
+              , DayCommand $ DayStdOut Nothing
+              )
+            , ( ["day", "2000-01-02"]
+              , DayCommand $ DayStdOut $ Just $ fromGregorian 2000 1 2
+              )
+            , ( ["day", "2000-1-2"]
+              , DayCommand $ DayStdOut $ Just $ fromGregorian 2000 1 2
+              )
+            , ( ["day", "2000/01/02"]
+              , DayCommand $ DayStdOut $ Just $ fromGregorian 2000 1 2
+              )
+            , ( ["day", "2000/1/2"]
+              , DayCommand $ DayStdOut $ Just $ fromGregorian 2000 1 2
+              )
+            ] $
+        \(args, expected) -> it ("should return 'day' command with parameters " ++ show expected ++ " when given " ++ show args) $
+          unwrapSuccess (parseOpt args) `shouldBe` expected
+      forM_ [ ( "given an invalid date"
+              , ["kyureki", "x"]
+              )
+            ] $
+        \(ctx, args) -> it ("should fail when " ++ ctx) $
+          parseOpt args `shouldSatisfy` isFailure
+
     describe "kyureki" $ do
       forM_ [ ( ["kyureki"]
               , TempoCommand $ TempoStdOut Nothing Nothing
               )
             , ( ["kyureki", "2000-01-02"]
-              , TempoCommand $ TempoStdOut Nothing (Just $ fromGregorian 2000 1 2)
-              )
-            , ( ["kyureki", "2000-1-2"]
-              , TempoCommand $ TempoStdOut Nothing (Just $ fromGregorian 2000 1 2)
-              )
-            , ( ["kyureki", "2000/01/02"]
-              , TempoCommand $ TempoStdOut Nothing (Just $ fromGregorian 2000 1 2)
-              )
-            , ( ["kyureki", "2000/1/2"]
               , TempoCommand $ TempoStdOut Nothing (Just $ fromGregorian 2000 1 2)
               )
             , ( ["kyureki", "--format", "fmtfmt"]
@@ -55,14 +72,8 @@ spec = do
               , TempoCommand $ TempoStdOut (Just "fmtfmt") (Just $ fromGregorian 2000 1 2)
               )
             ] $
-        \(args, expected) -> it ("should run 'kyureki' with parameters " ++ show expected ++ " when given " ++ show args) $
+        \(args, expected) -> it ("should return 'kyureki' command with parameters " ++ show expected ++ " when given " ++ show args) $
           unwrapSuccess (parseOpt args) `shouldBe` expected
-      forM_ [ ( "given an invalid date"
-              , ["kyureki", "x"]
-              )
-            ] $
-        \(ctx, args) -> it ("should fail when " ++ ctx) $
-          parseOpt args `shouldSatisfy` isFailure
 
     describe "holiday" $ do
       forM_ [ ( ["holiday"]
@@ -87,7 +98,7 @@ spec = do
               , HolidayCommand $ HolidayExitCode Nothing True
               )
             ] $
-        \(args, expected) -> it ("should run 'holiday' with parameters " ++ show expected ++ " when given " ++ show args) $
+        \(args, expected) -> it ("should return 'holiday' command with parameters " ++ show expected ++ " when given " ++ show args) $
           unwrapSuccess (parseOpt args) `shouldBe` expected
 
     describe "rokuyo" $ do
@@ -98,7 +109,7 @@ spec = do
               , RokuyoCommand $ RokuyoStdOut $ Just $ fromGregorian 2000 1 2
               )
             ] $
-        \(args, expected) -> it ("should run 'rokuyo' with parameters " ++ show expected ++ " when given " ++ show args) $
+        \(args, expected) -> it ("should return 'rokuyo' command with parameters " ++ show expected ++ " when given " ++ show args) $
           unwrapSuccess (parseOpt args) `shouldBe` expected
 
 unwrapSuccess :: Show a => ParserResult a -> a
