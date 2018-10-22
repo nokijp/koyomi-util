@@ -19,7 +19,7 @@ $ stack install
 
 ビルドには [Stack](https://www.haskellstack.org/) が必要です。
 
-`~/.local/bin` にパスを通すのも忘れないでください。
+また、`~/.local/bin` にパスを通す必要があります。
 
 
 ## 主な使い方
@@ -28,6 +28,9 @@ $ stack install
 
 | 使い方 | 説明 |
 |---|---|
+| `koyomi` | `koyomi day` と同じ |
+| `koyomi day` | 暦の情報を表示する |
+| `koyomi day 2000/01/01` | 特定の日付の暦の情報を表示する |
 | `koyomi kyureki` | 旧暦を表示する |
 | `koyomi kyureki 2000/01/01` | 特定の日付の旧暦を表示する |
 | `koyomi kyureki -f '%y-%02M-%02d'` | フォーマットを指定して旧暦を表示する（詳細は後述） |
