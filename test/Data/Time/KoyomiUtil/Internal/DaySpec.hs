@@ -17,6 +17,7 @@ spec = do
   describe "dayInfo" $ do
     forM_ [ (fromGregorian 2000 1 1, "1999年11月25日 大安 元日")
           , (fromGregorian 2000 1 2, "1999年11月26日 赤口")
+          , (fromGregorian 2000 1 6, "1999年11月30日 仏滅 小寒")
           ] $
       \(day, expected) -> it ("should return " ++ show expected ++ " when given " ++ show day) $
         dayInfo day `shouldBe` Right expected
