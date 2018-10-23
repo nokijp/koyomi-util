@@ -40,6 +40,8 @@ $ stack install
 | `koyomi holiday -w` | 土日の場合も出力する（祝日優先） |
 | `koyomi rokuyo` | 今日の六曜を表示する |
 | `koyomi rokuyo 2000/01/01` | 特定の日付の六曜を表示する |
+| `koyomi sekki` | 今日の二十四節気を表示する |
+| `koyomi sekki 2000/01/01` | 特定の日付の二十四節気を表示する |
 
 ### 旧暦フォーマット
 
