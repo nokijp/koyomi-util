@@ -40,7 +40,7 @@ holidayStdOut includesWeekends dateArg = printMultipleMaybe (holidayName include
 
 holidayExitCode :: Bool -> DateArg -> IO ()
 holidayExitCode includesWeekends (DayArg day) = if isJust (holidayName includesWeekends day) then exitSuccess else exitFailure
-holidayExitCode _ _ = undefined  -- FIXME
+holidayExitCode _ _ = exitFailure
 
 rokuyoStdOut :: DateArg -> IO ()
 rokuyoStdOut (DayArg day) = runEither $ rokuyoString day
