@@ -112,6 +112,17 @@ spec = do
         \(args, expected) -> it ("should return 'rokuyo' command with parameters " ++ show expected ++ " when given " ++ show args) $
           unwrapSuccess (parseOpt args) `shouldBe` expected
 
+    describe "sekki" $ do
+      forM_ [ ( ["sekki"]
+              , SolarTermCommand $ SolarTermStdOut Nothing
+              )
+            , ( ["sekki", "2000-01-02"]
+              , SolarTermCommand $ SolarTermStdOut $ Just $ fromGregorian 2000 1 2
+              )
+            ] $
+        \(args, expected) -> it ("should return 'sekki' command with parameters " ++ show expected ++ " when given " ++ show args) $
+          unwrapSuccess (parseOpt args) `shouldBe` expected
+
 unwrapSuccess :: Show a => ParserResult a -> a
 unwrapSuccess (Success a) = a
 unwrapSuccess r = error $ show r

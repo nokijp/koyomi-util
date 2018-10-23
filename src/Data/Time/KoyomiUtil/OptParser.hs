@@ -35,6 +35,9 @@ parser = subparser (  command "day" (info ((DayCommand <$> dayOptParser) <**> he
                    <> command "rokuyo" (info ((RokuyoCommand <$> rokuyoOptParser) <**> helper)
                                              (progDesc "Show name of Rokuyo" <> fullDesc)
                                        )
+                   <> command "sekki" (info ((SolarTermCommand <$> solarTermOptParser) <**> helper)
+                                            (progDesc "Show name of the twenty-four solar term" <> fullDesc)
+                                      )
                    )
          <|> pure (DayCommand $ DayStdOut Nothing)
 
@@ -56,6 +59,9 @@ holidayOptParser = (\c -> if c then HolidayExitCode else HolidayStdOut) <$> swit
 
 rokuyoOptParser :: Parser RokuyoCommandType
 rokuyoOptParser = RokuyoStdOut <$> dateParser
+
+solarTermOptParser :: Parser SolarTermCommandType
+solarTermOptParser = SolarTermStdOut <$> dateParser
 
 dateParser :: Parser (Maybe Day)
 dateParser = optional (argument (eitherReader parseDate) (metavar "DATE"))
