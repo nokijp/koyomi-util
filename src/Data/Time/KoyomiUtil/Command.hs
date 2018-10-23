@@ -7,23 +7,23 @@ module Data.Time.KoyomiUtil.Command
   , SolarTermCommandType(..)
   ) where
 
-import Data.Time.Calendar
+import Data.Time.KoyomiUtil.Date
 
 data Command = DayCommand { _dayCommandType :: DayCommandType }
              | TempoCommand { _tempoCommandType :: TempoCommandType }
              | HolidayCommand { _holidayCommandType :: HolidayCommandType }
              | RokuyoCommand { _rokuyoCommandType :: RokuyoCommandType }
              | SolarTermCommand { _solarTermCommandType :: SolarTermCommandType }
-  deriving (Show, Eq)
+               deriving (Show, Eq)
 
-data DayCommandType = DayStdOut { _dayCommandDay :: Maybe Day } deriving (Show, Eq)
+data DayCommandType = DayStdOut { _dayCommandDate :: Maybe DateArg } deriving (Show, Eq)
 
-data TempoCommandType = TempoStdOut { _tempoCommandFormat :: Maybe String, _tempoCommandDay :: Maybe Day } deriving (Show, Eq)
+data TempoCommandType = TempoStdOut { _tempoCommandFormat :: Maybe String, _tempoCommandDate :: Maybe DateArg } deriving (Show, Eq)
 
-data HolidayCommandType = HolidayStdOut { _holidayCommandDay :: Maybe Day, _includesWeekends :: Bool }
-                        | HolidayExitCode { _holidayCommandDay :: Maybe Day, _includesWeekends :: Bool }
+data HolidayCommandType = HolidayStdOut { _holidayCommandDate :: Maybe DateArg, _includesWeekends :: Bool }
+                        | HolidayExitCode { _holidayCommandDate :: Maybe DateArg, _includesWeekends :: Bool }
                           deriving (Show, Eq)
 
-data RokuyoCommandType = RokuyoStdOut { _rokuyoCommandDay :: Maybe Day } deriving (Show, Eq)
+data RokuyoCommandType = RokuyoStdOut { _rokuyoCommandDate :: Maybe DateArg } deriving (Show, Eq)
 
-data SolarTermCommandType = SolarTermStdOut { _solarTermCommandDay :: Maybe Day } deriving (Show, Eq)
+data SolarTermCommandType = SolarTermStdOut { _solarTermCommandDate :: Maybe DateArg } deriving (Show, Eq)

@@ -7,7 +7,7 @@ import Data.Time.Calendar
 import Data.List.Split
 import Text.Read
 
-data DateArg = DayArg { _dateArgYear :: Integer, _dateArgMonth :: Int, _dateArgDay :: Int }
+data DateArg = DayArg { _dateArgDay :: Day }
              | MonthArg { _dateArgYear :: Integer, _dateArgMonth :: Int }
              | YearArg { _dateArgYear :: Integer }
                deriving (Show, Eq)
@@ -20,8 +20,7 @@ toDateArg [yStr, mStr, dStr] = do
   y <- readMaybe yStr
   m <- readMaybe mStr
   d <- readMaybe dStr
-  _ <- fromGregorianValid y m d
-  return $ DayArg y m d
+  DayArg <$> fromGregorianValid y m d
 toDateArg [yStr, mStr] = do
   y <- readMaybe yStr
   m <- readMaybe mStr

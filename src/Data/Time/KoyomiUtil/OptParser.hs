@@ -3,9 +3,8 @@ module Data.Time.KoyomiUtil.OptParser
   , parseOptIO
   ) where
 
-import Data.Time.Calendar
-import Data.Time.Format
 import Data.Time.KoyomiUtil.Command
+import Data.Time.KoyomiUtil.Date
 import Options.Applicative
 
 parseOpt :: [String] -> ParserResult Command
@@ -63,13 +62,8 @@ rokuyoOptParser = RokuyoStdOut <$> dateParser
 solarTermOptParser :: Parser SolarTermCommandType
 solarTermOptParser = SolarTermStdOut <$> dateParser
 
-dateParser :: Parser (Maybe Day)
+dateParser :: Parser (Maybe DateArg)
 dateParser = optional (argument (eitherReader parseDate) (metavar "DATE"))
   where
-    parseDate :: String -> Either String Day
-    parseDate s = maybe (Left $ "Invalid date format: " ++ s) Right $ parseResult s
-    parseResult :: String -> Maybe Day
-    parseResult s =   parseDateMaybe "%Y-%-m-%-d" s
-                  <|> parseDateMaybe "%Y/%-m/%-d" s
-    parseDateMaybe :: String -> String -> Maybe Day
-    parseDateMaybe = parseTimeM True defaultTimeLocale
+    parseDate :: String -> Either String DateArg
+    parseDate s = maybe (Left $ "Invalid date format: " ++ s) Right $ parseDateArg s

@@ -4,6 +4,7 @@ module Data.Time.KoyomiUtil.DateSpec
   ) where
 
 import Control.Monad
+import Data.Time.Calendar
 import Data.Time.KoyomiUtil.Date
 import Test.Hspec
 
@@ -13,12 +14,12 @@ main = hspec spec
 spec :: Spec
 spec = do
   describe "parseDateArg" $ do
-    forM_ [ ("2000-01-02", Just $ DayArg 2000 1 2)
-          , ("2000/01/02", Just $ DayArg 2000 1 2)
-          , ("2000 01 02", Just $ DayArg 2000 1 2)
-          , ("2000-1-2", Just $ DayArg 2000 1 2)
-          , ("2000/1/2", Just $ DayArg 2000 1 2)
-          , ("2000 1 2", Just $ DayArg 2000 1 2)
+    forM_ [ ("2000-01-02", Just $ DayArg $ fromGregorian 2000 1 2)
+          , ("2000/01/02", Just $ DayArg $ fromGregorian 2000 1 2)
+          , ("2000 01 02", Just $ DayArg $ fromGregorian 2000 1 2)
+          , ("2000-1-2", Just $ DayArg $ fromGregorian 2000 1 2)
+          , ("2000/1/2", Just $ DayArg $ fromGregorian 2000 1 2)
+          , ("2000 1 2", Just $ DayArg $ fromGregorian 2000 1 2)
           , ("2000-01", Just $ MonthArg 2000 1)
           , ("2000/01", Just $ MonthArg 2000 1)
           , ("2000 01", Just $ MonthArg 2000 1)
