@@ -1,6 +1,7 @@
 module Data.Time.KoyomiUtil.Date
   ( DateArg(..)
   , parseDateArg
+  , toDays
   ) where
 
 import Data.Time.Calendar
@@ -34,3 +35,16 @@ toDateArg _ = Nothing
 
 delimiters :: [Char]
 delimiters = "/- "
+
+toDays :: DateArg -> [Day]
+toDays (DayArg day) = [day]
+toDays (MonthArg y m) =
+  let
+    start = fromGregorian y m 1
+    end = pred $ addGregorianMonthsClip 1 start
+  in [start..end]
+toDays (YearArg y) =
+  let
+    start = fromGregorian y 1 1
+    end = fromGregorian y 12 31
+  in [start..end]
