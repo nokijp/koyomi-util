@@ -26,22 +26,26 @@ $ stack install
 
 ここにない使い方は `--help` を参照してください。`koyomi kyureki --help` のように、各サブコマンドでも確認できます。
 
-| 使い方 | 説明 |
+| コマンド | 動作 |
 |---|---|
 | `koyomi` | `koyomi day` と同じ |
-| `koyomi day` | 暦の情報を表示する |
-| `koyomi day 2000/01/01` | 特定の日付の暦の情報を表示する |
-| `koyomi kyureki` | 旧暦を表示する |
-| `koyomi kyureki 2000/01/01` | 特定の日付の旧暦を表示する |
+| `koyomi day [DATE]` | 暦の情報を表示する |
+| `koyomi kyureki [DATE]` | 旧暦を表示する |
 | `koyomi kyureki -f '%y-%02M-%02d'` | フォーマットを指定して旧暦を表示する（詳細は後述） |
-| `koyomi holiday` | 祝日であれば、その名前を表示する |
-| `koyomi holiday 2000/01/01` | 特定の日付の祝日を調べる |
+| `koyomi holiday [DATE]` | 祝日であれば、その名前を表示する |
 | `koyomi holiday --exit-code` | 祝日かどうかを終了コードで返す |
 | `koyomi holiday -w` | 土日の場合も出力する（祝日優先） |
-| `koyomi rokuyo` | 今日の六曜を表示する |
-| `koyomi rokuyo 2000/01/01` | 特定の日付の六曜を表示する |
-| `koyomi sekki` | 今日の二十四節気を表示する |
-| `koyomi sekki 2000/01/01` | 特定の日付の二十四節気を表示する |
+| `koyomi rokuyo [DATE]` | 六曜を表示する |
+| `koyomi sekki [DATE]` | 二十四節気を表示する |
+
+`[DATE]` は以下のように利用できます。
+
+| `[DATE]` | 動作 |
+|---|---|
+| 指定なし | 今日（日本標準時）の情報を表示する |
+| `2000/01/01` | 2000年1月1日の情報を表示する |
+| `2000/01` | 2000年1月の情報を表示する |
+| `2000` | 2000年の情報を表示する |
 
 ### 旧暦フォーマット
 
