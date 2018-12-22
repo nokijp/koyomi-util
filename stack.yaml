@@ -1,4 +1,4 @@
 resolver: lts-12.12
 extra-deps:
 - git: https://github.com/nokijp/japanese-calendar.git
-  commit: cbf6c8b3901319f568c35340e4cf67ca669cd628
+  commit: 4269555c7a14a2cbf97c48cd7f03fe4db724bf8a
